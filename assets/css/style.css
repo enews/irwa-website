@@ -35,6 +35,8 @@
 	--page-width: 1440px;
 	--entry-width: 66ch;
 	--navbar-height: 3rem;
+	--header-height: 3.5rem;
+	--header-nav-color: rgba(255, 255, 255, 0.85);
 	--border-radius: 3px;
 	--cards-gap: 1rem;
 	--featured-image-height: 40vmin;
@@ -801,7 +803,7 @@ textarea {
 	align-items: center;
 	background: var(--dark);
 	display: flex;
-	height: 3.5rem;
+	height: var(--header-height);
 	margin-top: 0;
 	max-width: 100%;
 	padding: 0 var(--page-margin);
@@ -1011,7 +1013,7 @@ textarea {
 
 .navbar .navbar__menu li a,
 .navbar .navbar__menu li span[aria-haspopup=true] {
-	color: rgba(255, 255, 255, 0.85);
+	color: var(--header-nav-color);
 	display: block;
 	padding: 0 .75rem;
 	-webkit-transition: all .24s ease-out;
@@ -1028,14 +1030,14 @@ textarea {
 }
 
 .navbar .navbar__menu li span {
-	color: rgba(255, 255, 255, 0.85);
+	color: var(--header-nav-color);
 	cursor: default;
 	display: block;
 	padding: 0 .5rem
 }
 
 .navbar .navbar__menu>li {
-	line-height: 3.5rem
+	line-height: var(--header-height)
 }
 
 .navbar .navbar__menu>li:hover>a,
