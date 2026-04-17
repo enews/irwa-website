@@ -799,22 +799,19 @@ textarea {
 
 .header {
 	align-items: center;
+	background: var(--dark);
 	display: flex;
-	height: var(--navbar-height);
-	margin-top: 2rem;
-	max-width: var(--page-width);
-	position: relative
-}
-
-@media all and (min-width:80.0625em) and (min-height:50em) {
-	.header {
-		margin-top: 3rem
-	}
+	height: 3.5rem;
+	margin-top: 0;
+	max-width: 100%;
+	padding: 0 var(--page-margin);
+	position: relative;
+	width: 100%
 }
 
 .logo {
 	order: 1;
-	color: var(--dark) !important;
+	color: var(--white) !important;
 	font-family: var(--font-logo);
 	font-variation-settings: "wght" var(--font-weight-bold);
 	font-size: 1.423828125rem;
@@ -830,10 +827,10 @@ textarea {
 }
 
 .logo>img {
-	height: 4rem;
+	height: 2.5rem;
 	-o-object-fit: contain;
 	object-fit: contain;
-	padding: calc(var(--baseline) * 2) 0;
+	padding: 0;
 	width: auto
 }
 
@@ -1014,7 +1011,7 @@ textarea {
 
 .navbar .navbar__menu li a,
 .navbar .navbar__menu li span[aria-haspopup=true] {
-	color: var(--link-color-hover);
+	color: rgba(255, 255, 255, 0.85);
 	display: block;
 	padding: 0 .75rem;
 	-webkit-transition: all .24s ease-out;
@@ -1027,23 +1024,23 @@ textarea {
 .navbar .navbar__menu li span[aria-haspopup=true]:active,
 .navbar .navbar__menu li span[aria-haspopup=true]:focus,
 .navbar .navbar__menu li span[aria-haspopup=true]:hover {
-	color: var(--link-color)
+	color: var(--white)
 }
 
 .navbar .navbar__menu li span {
-	color: var(--dark);
+	color: rgba(255, 255, 255, 0.85);
 	cursor: default;
 	display: block;
 	padding: 0 .5rem
 }
 
 .navbar .navbar__menu>li {
-	line-height: var(--navbar-height)
+	line-height: 3.5rem
 }
 
 .navbar .navbar__menu>li:hover>a,
 .navbar .navbar__menu>li:hover>span[aria-haspopup=true] {
-	color: var(--link-color)
+	color: var(--white)
 }
 
 .navbar .navbar__menu>li:hover>[aria-haspopup=true] {
@@ -1053,7 +1050,23 @@ textarea {
 
 .navbar .navbar__menu>li:hover.has-submenu::after {
 	content: "";
-	border-color: var(--link-color)
+	border-color: var(--white)
+}
+
+.navbar .navbar__menu li a.header__join-btn {
+	border: 1px solid rgba(255, 255, 255, 0.6);
+	border-radius: var(--border-radius);
+	color: var(--white);
+	line-height: 1;
+	margin-left: .5rem;
+	padding: .4rem .9rem
+}
+
+.navbar .navbar__menu li a.header__join-btn:hover,
+.navbar .navbar__menu li a.header__join-btn:focus {
+	background: rgba(255, 255, 255, 0.1);
+	border-color: var(--white);
+	color: var(--white)
 }
 
 .navbar .navbar__menu>li.has-submenu {
@@ -1145,11 +1158,11 @@ textarea {
 }
 
 .navbar .navbar__toggle {
-	background: var(--light);
+	background: rgba(255, 255, 255, 0.15);
 	border: none;
 	-webkit-box-shadow: none;
 	box-shadow: none;
-	color: var(--link-color);
+	color: var(--white);
 	cursor: pointer;
 	display: block;
 	font-variation-settings: "wght" var(--font-weight-bold);
