@@ -4,194 +4,32 @@ title: Members
 description: Our members include wikis covering games from some of the most popular games on the Roblox platform. Take a look at our member sites right here!
 ---
 
-<h1 class="align-left">Members</h1>
-<div class="members-intro">
-    <p>Our members include wikis covering games from some of the most popular games on the Roblox platform. Take a look at our member sites right here!</p>
-    <p>Interested in joining? Check out <a href="{{ "/joining/" | relative_url }}">this page</a> for more!</p>
-</div>
+<h1 class="align-center">Members</h1>
+<p class="align-center">Our members include wikis covering games from some of the most popular games on the Roblox platform.</p>
 
 <div class="members-grid">
     {% for member in site.data.members %}
-    <button type="button" class="member-box"
-         onclick="openMemberModal({{ member | jsonify | escape }}, this)"
-         data-logo="{{ member.logo | relative_url }}">
-        <img src="{{ member.logo | relative_url }}" alt="{{ member.name }} logo" class="member-box-logo">
+    <button type="button" class="member-box btn-secondary"
+            onclick="openEntityModal(this)"
+            data-entity='{{ member | jsonify | escape }}'
+            data-logo="{{ member.logo | relative_url }}"
+            {% if member.logo-white %}data-logo-white="{{ member.logo-white | relative_url }}"{% endif %}>
+        <img src="{{ member.logo | relative_url }}" alt="" aria-hidden="true" class="member-box-logo">
+        {{ member.name }}
     </button>
     {% endfor %}
 </div>
 
-<!-- Modal Structure -->
-<div id="memberModal" class="modal-overlay" onclick="closeMemberModal(event)" role="dialog" aria-modal="true" aria-labelledby="modalName">
-    <div class="modal-content" onclick="event.stopPropagation()" tabindex="-1">
-        <button class="modal-close" onclick="closeMemberModal(event)" aria-label="Close Modal">&times;</button>
+{% include entity-modal.html %}
 
-        <div class="modal-left">
-            <img id="modalLogo" alt="Wiki Logo" hidden>
-        </div>
-
-        <div class="modal-right">
-            <div class="modal-header-grid">
-                <div class="modal-title-area">
-                    <h2 id="modalName"></h2>            
-                </div>
-
-                <p id="modalDescription"></p>
-
-                <div class="modal-meta-area">
-                    <div class="meta-item">
-                        <span class="meta-label">Joined</span>
-                        <span id="modalJoined" class="meta-value"></span>
-                    </div>
-                    <div class="meta-item">
-                        <span class="meta-label">Team</span>
-                        <div id="modalTeam" class="meta-value team-list"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal-footer-grid">
-                <div class="modal-socials" id="modalSocials">
-                    <!-- Social links will be injected here -->
-                </div>
-                <div class="modal-cta">
-                    <a id="modalGameLink" href="" target="_blank" rel="noopener noreferrer" class="btn-game-link">Game Link →</a>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="secondary-container">
+    <h2>Come be a member</h2>
+    <p style="margin-top: unset">Join us in our mission to support independent wikis and their work.</p>
+    <p style="margin-top: 15px">
+        <a href="{{ "/joining/" | relative_url }}" class="btn">
+            See our criteria
+            <img src="{{ "/assets/icons/arrow_forward.svg" | relative_url }}" height="20" aria-hidden="true" class="img-invert material-symbols">
+        </a>
+        <a href="https://discord.com/invite/qZwvwnPZsd" class="btn btn-external">Join our Discord</a>
+    </p>
 </div>
-
-<script>
-let lastFocusedElement;
-
-function openMemberModal(member, element) {
-    lastFocusedElement = element;
-    const modal = document.getElementById('memberModal');
-    const modalContent = modal.querySelector('.modal-content');
-    const name = document.getElementById('modalName');
-    const desc = document.getElementById('modalDescription');
-    const logo = document.getElementById('modalLogo');
-    const joined = document.getElementById('modalJoined');
-    const team = document.getElementById('modalTeam');
-    const gameLink = document.getElementById('modalGameLink');
-    const socials = document.getElementById('modalSocials');
-
-    name.textContent = member.name;
-    desc.textContent = member.description;
-
-    // Use the pre-resolved URL from the data attribute
-    logo.hidden = true;
-    logo.onload = () => logo.hidden = false;
-    logo.src = element.dataset.logo;
-    logo.alt = member.name + " logo";
-
-    joined.textContent = member.joined || 'N/A';
-
-    // Clear and populate team
-    team.textContent = '';
-    if (member.team) {
-        member.team.forEach(t => {
-            const container = document.createElement('div');
-            container.className = 'team-member';
-
-            const icon = document.createElement('div');
-            icon.className = 'team-member-icon';
-            container.appendChild(icon);
-
-            const span = document.createElement('span');
-            span.className = 'team-tag';
-            span.textContent = t.name;
-            container.appendChild(span);
-
-            team.appendChild(container);
-        });
-    }
-
-    // Set game link
-    if (member.game_link) {
-        gameLink.href = member.game_link;
-        gameLink.style.display = 'inline-block';
-    } else {
-        gameLink.style.display = 'none';
-    }
-
-    // Clear and populate socials
-    socials.textContent = '';
-
-    const createSocialLink = (href, text) => {
-        const a = document.createElement('a');
-        a.href = href;
-        a.textContent = text;
-        a.target = '_blank';
-        a.rel = 'noopener noreferrer';
-        return a;
-    };
-
-    // Always add Wiki link first
-    if (member.link) {
-        socials.appendChild(createSocialLink(member.link, 'Wiki'));
-    }
-
-    if (member.discord) {
-        socials.appendChild(createSocialLink(member.discord, 'Discord'));
-    }
-
-    if (member.twitter) {
-        socials.appendChild(createSocialLink(member.twitter, 'Twitter'));
-    }
-
-    modal.classList.add('active');
-    modalContent.focus();
-    document.addEventListener('keydown', trapFocus);
-}
-
-function closeMemberModal() {
-    const modal = document.getElementById('memberModal');
-    modal.classList.remove('active');
-
-    let transitionFinished = false;
-    const cleanup = () => {
-        if (transitionFinished) return;
-        transitionFinished = true;
-        document.removeEventListener('keydown', trapFocus);
-        if (lastFocusedElement) lastFocusedElement.focus();
-        modal.removeEventListener('transitionend', cleanup);
-        modal.removeEventListener('animationend', cleanup);
-    };
-
-    modal.addEventListener('transitionend', cleanup);
-    modal.addEventListener('animationend', cleanup);
-    // Fallback cleanup after 400ms (transition is 300ms)
-    setTimeout(cleanup, 400);
-}
-
-function trapFocus(e) {
-    const modal = document.getElementById('memberModal');
-    if (!modal.classList.contains('active')) return;
-
-    if (e.key === 'Escape') {
-        closeMemberModal();
-        return;
-    }
-
-    if (e.key === 'Tab') {
-        const focusableElements = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-        if (focusableElements.length === 0) return;
-
-        const firstElement = focusableElements[0];
-        const lastElement = focusableElements[focusableElements.length - 1];
-
-        if (e.shiftKey) {
-            if (document.activeElement === firstElement) {
-                lastElement.focus();
-                e.preventDefault();
-            }
-        } else {
-            if (document.activeElement === lastElement) {
-                firstElement.focus();
-                e.preventDefault();
-            }
-        }
-    }
-}
-</script>

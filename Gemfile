@@ -6,3 +6,7 @@ group :jekyll_plugins do
   gem "jekyll-feed", "~> 0.17"
   gem "jekyll-sitemap"
 end
+
+gem "csv"
+gem "base64"
+gem "mutex_m"

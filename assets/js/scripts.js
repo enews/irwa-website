@@ -19,7 +19,7 @@
 		 mobileMenuSidebarLogoSelector: null,
 		 mobileMenuSidebarLogoUrl: null,
 		 relatedContainerForOverlayMenuSelector: null,
-		 // attributes 
+		 // attributes
 		 ariaButtonAttribute: 'aria-haspopup',
 		 // CSS classes
 		 separatorItemClass: 'is-separator',
@@ -189,7 +189,7 @@
 						 relatedContainer.classList.remove(config.relatedContainerForOverlayMenuClass);
 					}
 			  }
-		 });   
+		 });
 	}
 
 	/**
@@ -291,9 +291,9 @@
 					var content = submenu.firstElementChild;
 
 					if (submenu.classList.contains(config.openedMenuClass)) {
-						 var height = content.clientHeight;   
+						 var height = content.clientHeight;
 						 submenu.style.height = height + 'px';
-						 
+
 						 setTimeout(function () {
 							  submenu.style.height = '0px';
 						 }, 0);
@@ -306,10 +306,10 @@
 						 content.setAttribute('aria-hidden', true);
 						 content.parentNode.firstElementChild.setAttribute('aria-expanded', false);
 					} else {
-						 var height = content.clientHeight;   
+						 var height = content.clientHeight;
 						 submenu.classList.add(config.openedMenuClass);
 						 submenu.style.height = '0px';
-						 
+
 						 setTimeout(function () {
 							  submenu.style.height = height + 'px';
 						 }, 0);
@@ -422,11 +422,71 @@
 	}
 
 	/**
-	 * Run menu scripts 
+	 * Run menu scripts
 	 */
 	init();
 })(window.publiiThemeMenuConfig);
 
+/**
+ * Basic HTML sanitizer to allow safe formatting tags
+ */
+window.sanitizeHTML = function (html) {
+	// If the string starts with &lt;, it was escaped by Liquid.
+	// We need to unescape it first so DOMParser can see the tags.
+	let unescaped = html;
+	if (html.includes('&lt;') || html.includes('&gt;')) {
+		const temp = document.createElement('div');
+		temp.innerHTML = html;
+		unescaped = temp.textContent;
+	}
+
+	const doc = new DOMParser().parseFromString(unescaped, 'text/html');
+	const allowedTags = ['B', 'I', 'EM', 'STRONG', 'A', 'BR'];
+
+	function clean(node) {
+		for (let i = node.childNodes.length - 1; i >= 0; i--) {
+			const child = node.childNodes[i];
+			if (child.nodeType === 1) { // Element node
+				if (!allowedTags.includes(child.tagName)) {
+					const text = document.createTextNode(child.textContent);
+					child.parentNode.replaceChild(text, child);
+				} else {
+					if (child.tagName === 'A') {
+						const href = child.getAttribute('href');
+						if (href && (href.startsWith('http') || href.startsWith('/') || href.startsWith('#'))) {
+							// Strip all attributes except href
+							while (child.attributes.length > 0) {
+								child.removeAttribute(child.attributes[0].name);
+							}
+							child.setAttribute('href', href);
+
+							// Only add target="_blank" and rel for external absolute URLs
+							if (href.startsWith('http://') || href.startsWith('https://')) {
+								try {
+									const url = new URL(href);
+									if (url.origin !== window.location.origin) {
+										child.setAttribute('target', '_blank');
+										child.setAttribute('rel', 'noopener noreferrer');
+									}
+								} catch (e) {
+									// Invalid URL, don't add target/rel
+								}
+							}
+						} else {
+							const text = document.createTextNode(child.textContent);
+							child.parentNode.replaceChild(text, child);
+							continue;
+						}
+					}
+					clean(child);
+				}
+			}
+		}
+	}
+
+	clean(doc.body);
+	return doc.body.innerHTML;
+};
 
 // Share buttons pop-up
 (function () {
@@ -500,7 +560,7 @@
 	}
 })();
 
-// Back to top 
+// Back to top
 const backToTopButton = document.getElementById("backToTop");
 
 if (backToTopButton) {
@@ -542,7 +602,7 @@ if (backToTopButton) {
 		if (!w || !h) {
 			continue;
 		}
-		
+
 		if (w.indexOf('%') > -1 && h.indexOf('%') > -1) { // percentage mode
 			w = parseFloat(w.replace('%', ''));
 			h = parseFloat(h.replace('%', ''));
@@ -636,7 +696,7 @@ if (searchButton && searchOverlay) {
 			articles[i].classList.remove('c-card--rows');
 		}
 
-		localStorage.setItem('persona-theme-selected-layout', 'grid');	
+		localStorage.setItem('persona-theme-selected-layout', 'grid');
 		resetIsotopeLayout();
 	}
 
@@ -670,15 +730,26 @@ if (searchButton && searchOverlay) {
 		setTimeout(() => {
 			if (localStorage.getItem('persona-theme-selected-layout')) {
 				let savedLayout = localStorage.getItem('persona-theme-selected-layout');
-	
+
 				if (savedLayout === 'grid') {
 					setGridLayout();
 				}
-	
+
 				if (savedLayout === 'rows') {
 					setRowsLayout();
 				}
 			}
 		}, 0);
 	}, false);
+})();
+
+(function() {
+	// Helper function to get the current logo URL for a member element
+    const getCurrentLogo = (element) => {
+        // Returns the logoWhite attribute directly
+        return element.dataset.logo;
+    };
+
+    // Make it globally available for the modal
+    window.getCurrentLogo = getCurrentLogo;
 })();
