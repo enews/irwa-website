@@ -375,7 +375,7 @@
   --yellow: #FFC76B;
 }
 :root {
-  --bg: url('../../assets/backgrounds/British_Countryside.png');
+  --bg: url('../../assets/backgrounds/British Countryside.png');
   --page-margin: 8vmin;
   --page-width: 1440px;
   --entry-width: 95ch;
