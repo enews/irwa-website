@@ -55,7 +55,7 @@ Get the name of the creator of a game:
 
 ### activePlayers
 
-Provides the number of active players in a place. Requires [gameData](#gameData) to be enabled.
+Provides the number of active players in a place. Requires [gameData](#gamedata) to be enabled.
 
 #### Example
 
@@ -80,7 +80,7 @@ Get the formatted number of active players in a place:
 
 ### visits
 
-Provides the number of visits to a place. Requires [gameData](#gameData) to be enabled.
+Provides the number of visits to a place. Requires [gameData](#gamedata) to be enabled.
 
 #### Example
 
@@ -149,8 +149,7 @@ Get the data about the user avatar thumbnail of builderman (ID 156):
 
 ### userAvatarThumbnailUrl
 
-Provides the URL of a user's avatar thumbnail. Allows [embedding](#Embedding-images-from-the-Roblox-CDN) the avatar
-image. Requires [userAvatarThumbnail](#userAvatarThumbnail) to be enabled.
+Provides the URL of a user's avatar thumbnail. Allows [embedding](#embedding-images-from-the-roblox-cdn) the avatar image. Requires [userAvatarThumbnail](#useravatarthumbnail) to be enabled.
 
 #### Example
 
@@ -210,8 +209,8 @@ Get the data about the asset thumbnail of the asset with ID 102611803:
 > Roblox enforces a stricter rate limit on the API used for this than on the other APIs.
 > It is in general recommended to use it at most once per page.
 
-Provides the URL of an asset thumbnail. Allows [embedding](#Embedding-images-from-the-Roblox-CDN) the asset image.
-Requires [assetThumbnail](#assetThumbnail) to be enabled.
+Provides the URL of an asset thumbnail. Allows [embedding](#embedding-images-from-the-roblox-cdn) the asset image.
+Requires [assetThumbnail](#assetthumbnail) to be enabled.
 
 #### Example
 
@@ -264,8 +263,8 @@ Get the data about the game icon of the game with ID 132813250731469:
 
 ### gameIconUrl
 
-Provides the URL of a game icon. Allows [embedding](#Embedding-images-from-the-Roblox-CDN) the game icon image.
-Requires [gameIcon](#gameIcon) to be enabled.
+Provides the URL of a game icon. Allows [embedding](#embedding-images-from-the-roblox-cdn) the game icon image.
+Requires [gameIcon](#gameicon) to be enabled.
 
 #### Example
 
@@ -313,7 +312,7 @@ Get all JSON data of the group roles of a user:
 ### groupRank
 
 Provides the name of a user's rank in a group.
-Requires [groupRoles](#groupRoles) to be enabled.
+Requires [groupRoles](#grouproles) to be enabled.
 
 #### Example
 
@@ -353,7 +352,7 @@ Get all JSON data of a group:
 ### groupMembers
 
 Provides the number of members in a group.
-Requires [groupData](#groupData) to be enabled.
+Requires [groupData](#groupdata) to be enabled.
 
 #### Example
 
@@ -647,7 +646,7 @@ https://apis.roblox.com/universes/v1/places/<GAMEID>/universe
 
 ### Embedding images from the Roblox CDN
 
-The result of the `{{#rblxUserAvatarThumbnailUrl}}` parser function can be used to embed avatar images in your wiki.
+The result of the `{{#robloxAPI: userAvatarThumbnailUrl}}` parser function can be used to embed avatar images in your wiki.
 
 #### Wikis on Miraheze
 
